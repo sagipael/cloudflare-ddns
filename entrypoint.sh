@@ -11,17 +11,6 @@ API_BASE="https://api.cloudflare.com/client/v4"
 
 mkdir -p $TMP
 
-[[ ! "$TOKEN" ]] && { echoLog "[ERROR]	TOKEN cannot be empty" ; ERROR=1 ; }
-[[ ! "$A_RECORD" ]] && { echoLog "[ERROR]	A_RECORD cannot be empty" ; ERROR=1 ; }
-[[ ! "$DOMAIN" ]] && { echoLog "[ERROR]	DOMAIN cannot be empty" ; ERROR=1 ; }
-[[ ! "$ZONE_ID" ]] && { echoLog "[ERROR]	ZONE_ID cannot be empty" ; ERROR=1 ; }
-
-[[ "$ERROR" ]] && exit 1
-HEADERS=(
-  -H "Authorization: Bearer $TOKEN"
-  -H "Content-Type: application/json"
-)
-
 function echoLog {
 	local msg="$@"
 	echo -e "$(date +%F" "%T)\t${msg[@]}"
@@ -88,6 +77,19 @@ function parse_schedule {
       ;;
   esac
 }
+
+[[ ! "$TOKEN" ]] && { echoLog "[ERROR]	TOKEN cannot be empty" ; ERROR=1 ; }
+[[ ! "$A_RECORD" ]] && { echoLog "[ERROR]	A_RECORD cannot be empty" ; ERROR=1 ; }
+[[ ! "$DOMAIN" ]] && { echoLog "[ERROR]	DOMAIN cannot be empty" ; ERROR=1 ; }
+[[ ! "$ZONE_ID" ]] && { echoLog "[ERROR]	ZONE_ID cannot be empty" ; ERROR=1 ; }
+
+[[ "$ERROR" ]] && exit 1
+HEADERS=(
+  -H "Authorization: Bearer $TOKEN"
+  -H "Content-Type: application/json"
+)
+
+
 
 # Validate and parse schedule
 [[ "$SCHEDULE" ]] && SLEEP_SECONDS=$(parse_schedule)
