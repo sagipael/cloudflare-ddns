@@ -2,14 +2,13 @@
 
 set -e
 
-TMP=/app
-TMP_IP_FILE="$TMP/current_ip"
-RECORD_ID_FILE="$TMP_DIR/record_id"
-UPDATE_SCRIPT="$TMP/update.sh"
+DATA=/data
+TMP_IP_FILE="$DATA/current_ip"
+RECORD_ID_FILE="$DATA/record_id"
 
 API_BASE="https://api.cloudflare.com/client/v4"
 
-mkdir -p $TMP
+mkdir -p $DATA
 
 function echoLog {
 	local msg="$@"
@@ -95,9 +94,8 @@ HEADERS=(
 [[ "$SCHEDULE" ]] && SLEEP_SECONDS=$(parse_schedule)
 
 # First run: get record ID if not cached
-if [[ ! -s "$RECORD_ID_FILE" ]]; then
-  get_record_id
-fi
+get_record_id
+
 
 A_RECORD_ID=$(cat $RECORD_ID_FILE)
 # Run immediately on start
