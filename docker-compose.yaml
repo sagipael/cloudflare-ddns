@@ -1,0 +1,28 @@
+services:
+  cloudflare-tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare-tunnel
+    hostname: cloudflare-tunnel
+    restart: unless-stopped
+    network_mode: "host"
+    command: tunnel run
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+      - SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+
+  cloudflare-ddns:
+    image: ghcr.io/sagipael/cloudflare-ddns
+    container_name: cloudflare-ddns
+    hostname: cloudflare-ddns
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - "$BASE_DIR/cloudflare-ddns:/data"
+    environment:
+      - TOKEN=${CF_TOKEN}
+      - A_RECORD=dynamic
+      - DOMAIN=${DOMAIN}
+      - ZONE_ID=${ZONE_ID}
+      - SCHEDULE=1h
