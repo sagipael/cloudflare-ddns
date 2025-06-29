@@ -19,10 +19,11 @@ services:
     restart: unless-stopped
     network_mode: "host"
     volumes:
-      - "$BASE_DIR/cloudflare-ddns:/data"
+      - "$BASE_DIR/cloudflare-ddns/data:/data"
+      - "$BASE_DIR/cloudflare-ddns/ssl:/etc/letsencrypt"
     environment:
       - TOKEN=${CF_TOKEN}
       - A_RECORD=dynamic
       - DOMAIN=${DOMAIN}
-      - ZONE_ID=${ZONE_ID}
       - SCHEDULE=1h
+      - SSL=true

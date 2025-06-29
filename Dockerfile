@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --no-cache curl bash jq nano
+RUN apk add --no-cache curl bash jq nano certbot certbot-dns-cloudflare
 
 
 COPY entrypoint.sh /app/entrypoint.sh
