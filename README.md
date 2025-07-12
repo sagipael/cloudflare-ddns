@@ -12,6 +12,7 @@ Cloudflare tunnel + DDNS + LetsEncrypt cert generator
 | `CF_DOMAIN` | Your managed Domain name in cloudflare | example: example.com |
 | `SCHEDULE` | set time for recurrent ddns update  | examples: 1h/1d/2mo|
 | `SSL` | Enable/disable wildcard certificate generator | true/false |
+| `MAIL` | Set mail address for ssl certificate | script will try to fetch the mail from api |
 
 
 
